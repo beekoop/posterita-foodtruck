@@ -3119,6 +3119,7 @@ module.controller('CayanSettingsController', function($scope, OrderScreen, APP) 
 	
 	$scope.merchantName = CayanService.MERCHANT_NAME;
 	$scope.siteId = CayanService.SITE_ID;
+	$scope.terminalId = CayanService.TERMINAL_ID;
 	
 	$scope.save = function(){
 		if(this.validate()){
