@@ -1,6 +1,6 @@
 /* Cayan Service */
 /* https://cayan.com/developers/transport/response-parameters#statuses */
-	
+    
 var CayanService = {
 		
 		isConfigured : false,
@@ -48,6 +48,14 @@ var CayanService = {
 	    	var site = 	sites[0];	    	
 	    	this.SITE_ID = site['siteid'];
 	    	this.TERMINAL_ID = site['terminalid'] || APP.TERMINAL_KEY;
+	    	
+	    	//CHECK FOR TERMINAL IDENTIFIER
+	    	var identifier = terminal['identifier'];
+	    	
+	    	if( identifier && identifier != null && identifier.length > 0 ){
+	    		
+	    		this.TERMINAL_ID = identifier;
+	    	}
 	    	
 	    	var cayan_id = site['cayan_id'];	    	
 	    	var cayan = APP.CAYAN.getById( cayan_id );
