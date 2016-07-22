@@ -1,0 +1,36 @@
+<ons-dialog var="cash-dialog">
+
+    <ons-toolbar inline>
+      <div class="center">
+        <strong>Total {{cart.grandtotal | number:2 }}</strong>
+      </div>
+    </ons-toolbar>
+    
+    
+    <form novalidate="novalidate" autocomplete="off" name="form" class="form-default" style="margin: 20px;">
+    
+    <div class="input-group">
+		<label>Enter amount tendered</label>
+		<input type="number" step="any" ng-model="cash_dialog_amount" name="cash_dialog_amount" id="cash_dialog_amount" required>
+		<div ng-show="cash_dialog_error" class="error">
+		   {{cash_dialog_error_message}}
+		</div>
+	</div>
+	
+	<div class="input-group">
+		<ons-row>
+			<ons-col>
+				<ons-button class="button--large button--outline" ng-click="cash_dialog_amount=null;cash_dialog.hide()">Cancel</ons-button>
+			</ons-col>
+			<ons-col>
+				&nbsp;
+			</ons-col>
+			<ons-col>
+				<ons-button class="button--large" ng-click="cash_dialog_validate()" ng-disabled="!form.$valid">OK</ons-button>
+			</ons-col>
+		</ons-row>
+	</div>
+    
+    </form>
+
+</ons-dialog>

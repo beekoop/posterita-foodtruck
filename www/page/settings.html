@@ -1,0 +1,25 @@
+<!-- settings page  -->
+
+<ons-page> 
+<ons-toolbar fixed-style>
+	<div class="left">
+		<ons-toolbar-button ng-click="menu.toggle()">
+		<ons-icon icon="ion-navicon"></ons-icon>
+		</ons-toolbar-button>
+	</div>
+  	<div class="center">Settings</div>
+</ons-toolbar>
+
+<ons-list class="menu-list">
+
+	<ons-list-item class="list__item--tappable list__item__line-height" modifier="chevron" onclick="menu.setMainPage('page/printer-settings.html', {closeMenu: true})">
+		<ons-icon icon="ion-printer"></ons-icon>Printer Settings
+	</ons-list-item>
+	
+	<ons-list-item class="list__item--tappable list__item__line-height" modifier="chevron" onclick="menu.setMainPage('page/cayan-settings.html', {closeMenu: true})">
+		<ons-icon icon="ion-card"></ons-icon>Cayan Settings
+	</ons-list-item>
+	
+</ons-list>
+
+</ons-page> 

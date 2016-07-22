@@ -1,0 +1,60 @@
+<ons-dialog var="checkout-dialog">
+
+    <ons-toolbar inline>
+      <div class="center">
+        <strong>Total {{cart.grandtotal | number:2 }}</strong>
+      </div>
+    </ons-toolbar>
+    
+    <form novalidate="novalidate" autocomplete="off" name="form" class="form-default" style="margin: 20px;">
+    
+    <div class="input-group">
+		<h2>How would you like to pay?</h2>		
+	</div>
+	
+	<div class="input-group">
+		<ons-button class="button--large button--cta" ng-click="showCashDialog()">Cash</ons-button>	
+	</div>
+	
+	<div class="input-group">
+		<ons-button class="button--large button--cta" ng-click="showCayanDialog()">Cayan</ons-button>	
+	</div>
+	
+	<div class="input-group">
+		<ons-row>
+			<ons-col>
+				&nbsp;
+			</ons-col>
+			<ons-col>
+				&nbsp;
+			</ons-col>
+			<ons-col>
+				<ons-button class="button--large" ng-click="checkout_dialog.hide()">Cancel</ons-button>
+			</ons-col>
+		</ons-row>
+	</div>
+    
+    </form>
+
+	<!-- 
+	<div style="margin: 8px 8px 4px; text-align: center;">
+		<p>
+			How would you like to pay?
+		</p>
+		
+	    <p>
+	      <ons-button  style="width:80%;" class="button--light" ng-click="showCashDialog()">Cash</ons-button>
+	    </p>
+	
+	    <p>
+	      <ons-button  style="width:80%;" class="button--light" ng-click="showCayanDialog()">Cayan</ons-button>
+	    </p>
+	    
+	    <br><br>
+	
+	    <p>
+	      <ons-button style="width:80%;" ng-click="checkout_dialog.hide()">Cancel</ons-button>
+	    </p>
+    </div>
+     -->
+</ons-dialog>

@@ -1,0 +1,54 @@
+<ons-dialog var="gift_card_balance_inquiry_dialog">
+
+    <ons-toolbar inline>
+      <div class="center">
+        <strong>Gift Card - Balance Inquiry</strong>
+      </div>
+    </ons-toolbar>
+    
+    
+    <form novalidate="novalidate" autocomplete="off" name="form" class="form-default" style="margin: 20px;">    
+    	
+	<div class="input-group">
+		<label>Enter Gift Card Number</label>
+		<input type="text" ng-model="gift_card_balance_inquiry_number" name="gift_card_balance_inquiry_number" id="gift_card_balance_inquiry_number" required>
+	</div>
+	
+		
+	<div class="input-group">
+		<ons-row>
+			<ons-col>
+				<ons-button class="button--large button--outline" ng-click="gift_card_balance_inquiry_dialog.hide()">Cancel</ons-button>
+			</ons-col>
+			<ons-col>
+				&nbsp;
+			</ons-col>
+			<ons-col>
+				<ons-button class="button--large" ng-click="balanceInquiryGiftCard( gift_card_balance_inquiry_number )" ng-disabled="!form.$valid">OK</ons-button>
+			</ons-col>
+		</ons-row>
+	</div>
+    
+    </form>
+
+	<!-- 
+	<ons-list>
+		
+		<ons-list-header>
+			Add Note
+		</ons-list-header>
+		
+		<ons-list-item>
+			<div style="margin: 8px 0px;">
+				<textarea class="textarea" id="add-note-textarea" style="width: 100%; height: 100px;" rows="3" placeholder="Add a note or description"></textarea>
+			</div>			
+		</ons-list-item>
+	  
+	  	<ons-list-item style="text-align:right;">
+	  		<ons-button ng-click="saveNote()" ng-show="!shouldHoldOrder">Save</ons-button>
+	  		<ons-button ng-click="saveNoteAndHoldOrder()" ng-show="shouldHoldOrder">Hold</ons-button>
+			<ons-button ng-click="cancelNote()">Cancel</ons-button>
+		</ons-list-item>
+	</ons-list>
+     -->
+</ons-dialog>

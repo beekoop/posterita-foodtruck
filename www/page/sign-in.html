@@ -1,0 +1,51 @@
+<!-- sign in page  -->
+<ons-page ng-controller="SignInController"> 
+
+<ons-toolbar fixed-style>
+
+  <div class="left">
+	  <ons-toolbar-button>
+	  	<ons-icon icon="ion-gear-a" ng-click="menu.setMainPage('page/server-endpoint.html', {closeMenu: true})" style="font-size: 32px; width: 1em;"></ons-icon>
+	  </ons-toolbar-button>
+  </div>
+  
+  <div class="center">Sign in to your posterita account</div>
+  
+  <div class="right">
+  	<ons-toolbar-button onclick="closeApp()">
+  		Close
+  	</ons-toolbar-button>
+  </div>
+  
+</ons-toolbar>
+
+<form novalidate class="form-default" name="form" autocomplete="off">
+
+	<div class="input-group" style="text-align:center;">
+		<img src="images/logo-black.png" width="250px" height="90px">
+	</div>
+
+	<div class="input-group">
+		<label>Email</label>
+		<input type="email" class="text-input-large" placeholder="name@example.com" name="email" ng-model="email" required="required" autofocus tabindex="1">
+		<div ng-show="form.$submitted || form.email.$touched" class="error">
+		   <span ng-show="form.email.$error.required">Email is required</span>
+		   <span ng-show="form.email.$error.email">Please enter a valid e-mail address.</span>
+		</div>
+	</div>
+	
+	<div class="input-group">
+		<label>Password</label>
+		<input type="password" class="text-input-large" placeholder="Password" name="password" ng-model="password" required="required" tabindex="2">
+		<div ng-show="form.$submitted || form.password.$touched" class="error">
+		    <span ng-show="form.password.$error.required">Password is required</span>
+		</div>
+	</div>
+	
+	<div class="input-group">
+		<ons-button modifier="large" class="" ng-disabled="!form.$valid" ng-click="signIn()" tabindex="3">Next</ons-button>
+	</div>
+	  
+</form>
+
+</ons-page> 

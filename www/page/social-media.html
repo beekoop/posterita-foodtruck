@@ -1,0 +1,35 @@
+<ons-page ng-controller="SocialMediaController"> 
+	<ons-toolbar fixed-style>
+		<div class="left">
+			<ons-toolbar-button ng-click="menu.toggleMenu()">
+			<ons-icon icon="ion-navicon"></ons-icon>
+			</ons-toolbar-button>
+		</div>		
+		<div class="center">Social Media</div>
+	</ons-toolbar>
+	
+	<form novalidate="novalidate" autocomplete="off" name="form" class="form-default" style="width:600px">
+	
+		
+		<div class="input-group">
+			<label>Enter a post</label>
+			<textarea id="add-note-textarea" style="width:582px;height:200px;font-size:18px;" name="message" ng-model="message" rows="5" placeholder="Write your post" required></textarea>
+		</div>
+		
+		<div class="input-group">
+			<ons-row>
+				<ons-col>
+					<ons-button class="button--large button--outline" ng-click="message=null">Clear</ons-button>	
+				</ons-col>
+				<ons-col>
+					&nbsp;
+				</ons-col>
+				<ons-col>
+					<ons-button class="button--large" ng-click="publish()" ng-disabled="!form.$valid">Post</ons-button>					
+				</ons-col>
+			</ons-row>
+		</div>
+	
+	</form>
+	
+</ons-page>

@@ -1,0 +1,43 @@
+
+<!-- select terminal page  -->
+
+<ons-page ng-controller="TerminalController"> 
+
+<ons-toolbar fixed-style>
+  <div class="left"><ons-toolbar-button ng-click="signOut()">Sign Out</ons-toolbar-button></div>
+  <div class="center">Select Terminal</div>
+  <div class="right"><ons-toolbar-button ng-click="close()">Close</ons-toolbar-button></div>
+</ons-toolbar>
+
+<form novalidate class="form-default" name="form">
+
+<div class="input-group">
+	<label>
+		Select vehicle
+	</label>
+	
+	<select ng-model="truck_id" ng-change="renderTerminalSelect()" autofocus>
+		<option ng-repeat="truck in truckList" value="{{truck.truck_id}}" ng-selected="truck.truck_id == truck_id">
+			{{truck.name}}
+		</option>
+	</select>
+</div>
+
+<div class="input-group">
+	<label>
+		Select terminal
+	</label>
+	
+	<select ng-model="terminal_id">
+		<option ng-repeat="terminal in terminalList" value="{{terminal.terminal_id}}" ng-selected="terminal.terminal_id == terminal_id">
+			{{terminal.name}}
+		</option>
+	</select>
+</div>
+
+<div class="input-group">
+<ons-button modifier="large" ng-disabled="!validateForm()" ng-click="setTerminal()">Done</ons-button>
+</div>
+</form>
+
+</ons-page> 

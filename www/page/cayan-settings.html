@@ -1,0 +1,79 @@
+<ons-page ng-controller="CayanSettingsController"> 
+	<ons-toolbar fixed-style>
+		
+		<div class="left">
+			<ons-toolbar-button onclick="menu.setMainPage('page/settings.html', {closeMenu: true})">
+			<ons-icon icon="ion-ios-arrow-back"></ons-icon>Back
+			</ons-toolbar-button>
+		</div>
+		<div class="center">Cayan Settings</div>
+		
+	</ons-toolbar>
+
+	<form name="form" novalidate="novalidate" autocomplete="off" ng-submit="save()">
+	<ons-list>
+       <ons-list-header>Merchant Account Details</ons-list-header>
+       
+       <ons-list-item>
+	       <label>Merchant Name:</label>
+	       {{merchantName}}
+       </ons-list-item>
+       
+       <ons-list-item>
+	       <label>Site ID:</label>
+	       {{siteId}}
+       </ons-list-item>
+       
+       <ons-list-header>Customer Engagement Device Settings</ons-list-header>
+
+       <ons-list-item>
+	       <label>Enable Cayan</label>
+	       <ons-switch modifier="list-item" ng-model="settings.enableCayan"></ons-switch>
+       </ons-list-item>
+       
+       <ons-list-header ng-show="settings.enableCayan">Processing Options</ons-list-header>
+       <ons-list-item modifier="tappable" ng-show="settings.enableCayan">
+          <label class="radio-button radio-button--list-item">
+            <input type="radio" name="printerType" value="HOSTED" ng-model="settings.mode" required>
+            <div class="radio-button__checkmark radio-button--list-item__checkmark"></div>
+            Use Web Interface ( Transport Web )
+          </label>
+        </ons-list-item>
+        
+        <ons-list-item modifier="tappable" ng-show="settings.enableCayan">
+          <label class="radio-button radio-button--list-item">
+            <input type="radio" name="printerType" value="CED" ng-model="settings.mode" required>
+            <div class="radio-button__checkmark radio-button--list-item__checkmark"></div>
+            Use Genuis Customer Engagement Device ( CED )
+          </label>
+        </ons-list-item>
+           
+        <ons-list-header ng-show="settings.enableCayan && (settings.mode == 'CED') ">CED IP Address</ons-list-header>
+        <ons-list-item ng-show="settings.enableCayan && (settings.mode == 'CED')">
+        	<ons-row>
+        		<ons-col>
+        		
+        			<input type="text" name="ipAddress" id="cayan-ip-address-text" placeholder="Enter IP address"
+        			ng-model="settings.ipAddress"
+        			ng-minlength="7" ng-maxlength="15"
+        			ng-pattern="'^([0-9]{1,3})[.]([0-9]{1,3})[.]([0-9]{1,3})[.]([0-9]{1,3})$'"
+        			required 
+        			class="text-input text-input--transparent" style="margin-top:8px; width: 100%;">
+					        			
+        		</ons-col>
+        		<ons-col width="150px">
+        			<div style="text-align:right;">
+        				<ons-button class="button" ng-click="test()">Test Device</ons-button>
+        			</div>        			
+        		</ons-col>
+        	</ons-row>        	
+        </ons-list-item>
+	</ons-list>
+	
+        
+    <div style="margin: 20px 8px 0px;">
+      <button class="button button--large" type="submit">Save</button>
+    </div>
+    
+    </form>
+</ons-page> 

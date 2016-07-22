@@ -1,0 +1,43 @@
+<ons-page ng-controller="ModifierController"> 
+<ons-toolbar fixed-style>
+<div class="left">
+	<ons-toolbar-button onclick="menu.setMainPage('page/order-screen.html', {closeMenu: true})">
+	<ons-icon icon="ion-ios-arrow-back"></ons-icon>Back
+	</ons-toolbar-button>
+</div>
+<div class="center">ITEM OPTIONS</div>
+
+<div style="width:317px;height:44px;position:absolute;right:0px;text-align: center;line-height: 44px;" class="right">
+	<ons-row width="100%">		
+		<ons-col>
+			<strong>ITEM NAME</strong>
+		</ons-col>
+	</ons-row>
+</div>
+</ons-toolbar>
+
+<ons-row width="100%">
+	<ons-col>
+		<ons-row>
+		
+			<ons-col width="210px">
+				<ons-list modifier="inset" style="margin-top:10px;" class="large alternate">
+			   		<ons-list-item modifier="tappable" ng-repeat="group in modifiers.single" ng-click="">
+			   			{{group.name}}
+			   		</ons-list-item>
+			   		<ons-list-item modifier="tappable" ng-repeat="group in modifiers.multiple" ng-click="">
+			   			{{group.name}}
+			   		</ons-list-item>
+			   </ons-list>
+			</ons-col>
+			
+			<ons-col>
+			</ons-col>
+			
+		</ons-row>
+	</ons-col>
+	
+	<ons-col width="317px">x</ons-col>
+</ons-row>
+
+</ons-page> 

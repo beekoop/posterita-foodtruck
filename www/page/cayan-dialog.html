@@ -1,0 +1,61 @@
+<ons-dialog var="checkout-dialog">
+
+    <ons-toolbar inline>
+      <div class="center">
+        <strong>Total {{cart.grandtotal | number:2 }}</strong>
+      </div>
+    </ons-toolbar>
+    
+    <form novalidate="novalidate" autocomplete="off" name="form" class="form-default" style="margin: 20px;">
+    
+    <div class="input-group">
+		<h2>Waiting for Cayan</h2>		
+	</div>
+	
+	<div class="input-group" style="text-align: center;">
+		<ons-icon icon="ion-load-c" spin="true" style="font-size:4em;color:#1E90FF;"></ons-icon>
+	</div>
+	
+	<div class="input-group">
+		<ons-row>
+			<ons-col>
+				&nbsp;
+			</ons-col>
+			<ons-col>
+				&nbsp;
+			</ons-col>
+			<ons-col>
+				<ons-button class="button--large" ng-click="cancelCayan()">Cancel</ons-button>
+			</ons-col>
+		</ons-row>
+	</div>
+    
+    </form>
+</ons-dialog>
+
+<!-- 
+<ons-dialog var="cayan-dialog">
+
+    <ons-toolbar inline>
+      <div class="center">
+        <strong>Total {{cart.grandtotal | number:2 }}</strong>
+      </div>
+    </ons-toolbar>
+
+	<div style="margin: 8px 8px 4px; text-align: center;">
+		<p>
+			Cayan Device
+		</p>
+		
+	    <p>
+	      <ons-button  style="width:80%;" class="button--light" ng-click="">Get Payment</ons-button>
+	    </p>
+	    
+	    <br><br>
+	
+	    <p>
+	      <ons-button style="width:80%;" ng-click="cayan_dialog.hide()">Cancel</ons-button>
+	    </p>
+    </div>
+</ons-dialog>
+ -->

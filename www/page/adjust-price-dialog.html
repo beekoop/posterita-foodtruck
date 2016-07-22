@@ -1,0 +1,35 @@
+ <ons-dialog>
+ 
+	 <ons-toolbar inline>
+	     <div class="center">
+	       <strong>Adjust Line Total {{ (currentLine.price * currentLine.qty) | number : 2 }}</strong>
+	     </div>
+	 </ons-toolbar>
+	 
+	 <form novalidate="novalidate" autocomplete="off" name="form" class="form-default" style="margin: 20px;">
+	   
+	   <div class="input-group">
+		<label>Enter amount</label>
+		<input type="number" step="any" ng-model="adjust_price_dialog_amount" name="adjust_price_dialog_amount" id="adjust_price_dialog_amount" required>
+		<div ng-show="cash_dialog_error" class="error">
+		   {{cash_dialog_error_message}}
+		</div>
+	</div>
+	
+	<div class="input-group">
+		<ons-row>
+			<ons-col>
+				<ons-button class="button--large button--outline" ng-click="adjust_price_dialog.hide()">Cancel</ons-button>
+			</ons-col>
+			<ons-col>
+				&nbsp;
+			</ons-col>
+			<ons-col>
+				<ons-button class="button--large" ng-click="adjustPrice( adjust_price_dialog_amount )" ng-disabled="!form.$valid">OK</ons-button>
+			</ons-col>
+		</ons-row>
+	</div>
+	   
+	</form> 
+    
+ </ons-dialog>

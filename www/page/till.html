@@ -1,0 +1,51 @@
+<ons-page ng-controller="TillController"> 
+	<ons-toolbar fixed-style>
+		<div class="left">
+			<ons-toolbar-button ng-click="menu.toggleMenu()">
+			<ons-icon icon="ion-navicon"></ons-icon>
+			</ons-toolbar-button>
+		</div>		
+		<div class="center">Till</div>
+	</ons-toolbar>
+	
+	<form novalidate="novalidate" autocomplete="off" name="form" class="form-default">
+	
+		<div class="input-group">
+			<h2>{{ today | date:'fullDate' }}</h2>
+		</div>
+		
+		<div class="input-group">
+			<label>{{terminalInfo}}</label>
+		</div>
+		
+		<div class="input-group">
+			<label>Opening Date : {{ till.openingdate |  date:'medium' }}</label>
+		</div>
+		
+		<div class="input-group">
+			<label>Opening Amount : {{ till.openingamt |  number:2 }}</label>
+		</div>
+		
+		<div class="input-group">
+			<label>Opened By : {{ openby.username }}</label>
+		</div>
+		
+		<div class="input-group">&nbsp;</div>
+		
+		<div class="input-group">
+			<ons-row>
+				<ons-col>
+					<ons-button class="button--large" ng-click="menu.setMainPage('page/adjust-till.html', {closeMenu: true})">Adjustments</ons-button>
+				</ons-col>
+				<ons-col>
+					&nbsp;
+				</ons-col>
+				<ons-col>
+					<ons-button class="button--large" ng-click="goToCloseTillPage()">Close Till</ons-button>
+				</ons-col>
+			</ons-row>
+		</div>
+	
+	</form>
+	
+</ons-page>

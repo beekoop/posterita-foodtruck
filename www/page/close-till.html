@@ -1,0 +1,54 @@
+<ons-page ng-controller="TillController"> 
+	<ons-toolbar fixed-style>
+		<div class="left">
+			<ons-toolbar-button ng-click="menu.setMainPage('page/till.html', {closeMenu: true})">
+			<ons-icon icon="ion-ios-arrow-back"></ons-icon>Back
+			</ons-toolbar-button>
+		</div>		
+		<div class="center">Close Till</div>
+	</ons-toolbar>
+
+	<form novalidate="novalidate" autocomplete="off" name="form" class="form-default">
+	
+	<div class="input-group">
+		<h2>{{ today | date:'fullDate' }}</h2>
+	</div>
+	
+	<div class="input-group">
+		<label>{{terminalInfo}}</label>
+	</div>
+		
+	<div class="input-group">
+		<label>Opening Date : {{ till.openingdate |  date:'medium' }}</label>
+	</div>
+	
+	<div class="input-group">
+		<label>Opening Amount : {{ till.openingamt |  number:2 }}</label>
+	</div>
+	
+	<div class="input-group" ng-show="showCloseTillError">
+		<label style="color:red">Expected : {{ expectedAmt | number:2 }}</label>
+	</div>
+	
+	<div class="input-group">&nbsp;</div>
+	
+	<div class="input-group">
+		<label>Enter Closing Amount*</label>
+		<input type="number" step="any" ng-model="amount" name="amount" required id="close-till-amount">
+	</div>
+	
+	<div class="input-group">
+		<ons-row>
+			<ons-col>
+				<ons-button class="button--large button--outline" ng-click="menu.setMainPage('page/till.html', {closeMenu: true})">Cancel</ons-button>
+			</ons-col>
+			<ons-col>
+				&nbsp;
+			</ons-col>
+			<ons-col>
+				<ons-button class="button--large" ng-click="closeTill(amount)" ng-disabled="!form.$valid">Close Till</ons-button>
+			</ons-col>
+		</ons-row>
+	</div>	
+	</form>
+</ons-page>

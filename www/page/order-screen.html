@@ -1,0 +1,587 @@
+<ons-page ng-controller="OrderScreenController"> 
+
+<ons-toolbar id="order-screen-toolbar" fixed-style>
+<div class="left">
+	<ons-toolbar-button ng-click="menu.toggleMenu()">
+	<ons-icon icon="ion-navicon"></ons-icon>
+	</ons-toolbar-button>
+</div>
+<div class="center">
+<img src="images/header-logo-black.png" id="header-logo">
+</div>
+<div style="width:317px;height:44px;position:absolute;right:0px;text-align: center;line-height: 44px;" class="right">
+	<ons-row width="100%">
+		<ons-col width="44px">
+			<ons-toolbar-button ng-click="showMorePopUp()" id="order-screen-more-button">
+				<ons-icon icon="ion-more"></ons-icon>
+			</ons-toolbar-button>
+		</ons-col>
+		<ons-col>
+			Cart ({{cart.qtytotal}})
+		</ons-col>
+		<ons-col width="44px">
+			<ons-toolbar-button ng-click="clearCart()">
+				<ons-icon icon="ion-ios-refresh-outline"></ons-icon>
+			</ons-toolbar-button>
+		</ons-col>
+	</ons-row>
+</div>
+</ons-toolbar>
+
+<ons-row style="height:100%;" id="order-screen-main-row"> 
+  
+  <ons-col>
+  	<!-- product selector -->
+  	<ons-row style="height:100%;" ng-show="screen.shouldShowProductSelector">
+  		<ons-col width="210px">
+		  	<div style="position:absolute; top:0px; bottom: 0px; left:0px; width:210px; overflow: auto;">
+			   <ons-list modifier="inset" style="margin-top:10px;" class="large alternate">
+			   		<ons-list-item modifier="tappable" ng-repeat="category in categoryList" ng-click="setCategory(category)" ng-class="isCategorySelected(category.productcategory_id)">
+			   			{{category.name}}
+			   		</ons-list-item>
+			   </ons-list>
+			</div>
+		  </ons-col>
+		  
+		  <ons-col>	  			  		
+	  		<div style="position:absolute; top:0px; bottom: 0px; left:214px; right:317px; overflow: auto;">
+		   		<div class="product-tiles list__item--tappable" ng-repeat="product in productList | filter:{productcategory_id : currentcategory.productcategory_id}" ng-click="addLine( product.product_id, 1);">
+		   			<div class="label">{{product.name}}</div>
+		   		</div>
+		   		<div style="clear:both;"></div>
+		   		<!-- modifiers -->
+		   		<div class="product-tiles modifier-tiles list__item--tappable" ng-repeat="modifier in modifierList | filter:{productcategory_id : currentcategory.productcategory_id}" ng-click="addModifier( modifier.modifier_id )">
+		   			<div class="label">{{modifier.name}}</div>
+		   			<div class="label">{{modifier.sellingprice | number : 2}}</div>
+		   		</div>
+		   </div>
+		  </ons-col>
+  	</ons-row>  	
+  	
+  	<!-- line details -->
+  	<ons-row style="height:100%;" ng-show="screen.shouldShowLineDetails" ng-controller="LineDetailsController">
+  		<ons-col>  		
+  		<div class="header-footer-layout" style="left:0px; right: 318px; width: auto;">
+  		
+			<div class="header">			
+			<div class="navigation-bar">
+			  <div class="navigation-bar__left">
+			  	<!-- 
+			    <span class="toolbar-button--quiet navigation-bar__line-height" ng-click="back()">
+			      <i class="ion-ios-arrow-back"
+			        style="font-size:32px; vertical-align:-6px;"></i>
+			    </span>
+			     -->
+			  </div>
+			
+			  <div class="navigation-bar__center">
+			    {{currentLine.product.name}}
+			  </div>
+			
+			  <div class="navigation-bar__right">
+			  <!--
+			    <span class="toolbar-button--quiet navigation-bar__line-height" ng-click="remove( currentLine.index )">
+			    	Remove
+			    </span>
+			    -->
+			  </div>
+			</div>
+			
+			<!-- 
+			<div class="button-bar line-details-button-bar" style="width:280px;">		
+			  <div class="button-bar__item">
+			    <button class="button-bar__button">General</button>
+			  </div>
+			
+			  <div class="button-bar__item">
+			    <button class="button-bar__button">Modifiers</button>
+			  </div>		  
+			</div>
+			 -->
+			
+			<div class="button-bar line-details-button-bar" style="width:280px;">
+	           <div class="button-bar__item">
+	             <input type="radio" name="navi-segment-a" ng-model="currentLine.selection" value="general" checked>
+	             <button class="button-bar__button">General</button>
+	           </div>
+	           <div class="button-bar__item">
+	             <input type="radio" name="navi-segment-a" ng-model="currentLine.selection" value="modifier">
+	             <button class="button-bar__button">Modifiers</button>
+	           </div>
+	         </div>
+			
+			</div>
+			
+  			<div class="content">
+  			
+  				<div>
+			<!-- general -->
+			<div class="line-details-general-section" ng-show="currentLine.selection == 'general'">
+				<ons-row>
+					<ons-col>
+						Unit Price
+					</ons-col>
+					
+					<ons-col width="100px">
+						<strong>{{currentLine.price | currency : "$" : 2}}</strong>
+					</ons-col>
+					
+					<ons-col width="100px">
+						 <strong>Tax</strong>&nbsp;<ons-switch ng-model="enableTax"></ons-switch>
+					</ons-col>
+					
+				</ons-row>
+				
+				<!-- 
+				<ons-row>
+					<ons-col>
+						Tax
+					</ons-col>
+					
+					<ons-col width="100px">
+						 <ons-switch>Tax</ons-switch>
+					</ons-col>
+				</ons-row>
+				 -->
+				
+				<ons-row>
+					<ons-col>
+						Quantity
+					</ons-col>
+					
+					<ons-col width="100px">
+						<strong>{{currentLine.qty}}</strong>
+					</ons-col>
+					
+					<ons-col width="100px">
+						<div class="button-bar" style="width:100%">		
+						  <div class="button-bar__item">
+						    <button class="button-bar__button" style="height:44px;" ng-click="currentLine.qty = currentLine.qty - 1; currentLine.qty = (currentLine.qty <= 0) ? 1 : currentLine.qty;">
+						    	<i class="ion-minus" style="font-size:28px;"></i>
+						    </button>
+						  </div>
+						
+						  <div class="button-bar__item"> 
+						    <button class="button-bar__button" style="height:44px;" ng-click="currentLine.qty = currentLine.qty + 1">
+						    	<i class="ion-plus" style="font-size:28px;"></i>
+						    </button>
+						  </div>		  
+						</div>
+					</ons-col>
+				</ons-row>
+				
+				<ons-row>
+					<ons-col>
+						Line Total
+					</ons-col>
+					
+					<ons-col width="100px">
+						<strong>{{ (currentLine.price * currentLine.qty) | currency : "$" : 2}}</strong>
+					</ons-col>
+					
+					<ons-col width="100px">
+						<ons-button style="width:100%; text-align:center;" ng-click="showAdjustPriceDialog( currentLine.price * currentLine.qty )">Adjust</ons-button>
+					</ons-col>
+				</ons-row>
+				
+				<ons-row>
+					<ons-col>
+						<input type="text" class="text-input text-input--underbar" placeholder="Enter a note or description" ng-model="currentLine.note" style="width:100%">
+					</ons-col>
+					<ons-col width="100px">
+						&nbsp;
+					</ons-col>
+				</ons-row>				
+				
+			</div>
+			
+			<!-- modifiers -->
+			<div class="line-details-modifier-section" ng-show="currentLine.selection == 'modifier'">
+				<form name="form" id="modifier-form">
+								
+				<ons-list class="list alternate">
+					<ons-list-item modifier="tappable" ng-repeat="modifier in modifierList | filter:{ productcategory_id : currentLine.productcategory_id}" 
+					class="list__item list__item--tappable" >
+						<label class="checkbox checkbox--list-item">
+							<input class="modifier-checkbox" type="checkbox" value="{{modifier.modifier_id}}" 
+							name="{{modifier.modifier_id}}"  ng-checked="currentLine.isModifierPresent( modifier.modifier_id)">
+							<div class="checkbox__checkmark checkbox--list-item__checkmark"></div>
+							{{modifier.name}}
+						</label>
+					</ons-list-item>
+				</ons-list>
+				
+				</form>
+			
+				
+			</div>		
+		</div>
+  			
+  			</div>
+  			<div class="footer">
+  				<div style="margin:8px auto 8px; text-align: center; width:500px;">
+  				<ons-row class="action-button">
+			    	<ons-col>
+			    		<ons-button class="button--large button--outline" ng-click="back()">Cancel</ons-button>
+			    	</ons-col>	
+			    	<ons-col>
+			    		&nbsp;
+			    	</ons-col>
+			    	<ons-col>
+			    		<ons-button class="button--large" ng-click="applyChanges( currentLine.index, currentLine.price, currentLine.qty, enableTax, currentLine.note)">Apply Changes</ons-button>
+			    	</ons-col>	    	      	
+			    </ons-row>
+			    </div>
+			    
+			    <!--
+	  			<div style="margin:0px auto; text-align: center;">
+	  				<ons-button  style="margin:8px 4px;" ng-click="back()">
+						Cancel
+			        </ons-button>
+	  				<ons-button  style="margin:8px 4px;" ng-click="applyChanges( currentLine.index, currentLine.price, currentLine.qty, enableTax, currentLine.note)">
+						Apply Changes
+			        </ons-button>
+	  			</div>
+	  			  -->
+  			</div>
+  		</div>
+  		
+  		
+		
+			
+  		</ons-col>  		
+  	</ons-row>
+  	  	
+  	<!-- search customer -->
+  	<ons-row style="height:100%;" ng-show="screen.shouldShowSearchCustomer" ng-controller="SearchCustomerController">
+  		<ons-col>
+  			<div class="header-footer-layout" style="left:0px; right: 318px; width: auto;">
+  				<div class="header">
+  				
+  					<div class="navigation-bar">
+					  <div class="navigation-bar__left">
+					  	<!-- 
+					    <span class="toolbar-button--quiet navigation-bar__line-height" ng-click="screen.reset()">
+					      <i class="ion-ios-arrow-back"
+					        style="font-size:32px; vertical-align:-6px;"></i>
+					    </span>
+					     -->
+					  </div>
+					
+					  <div class="navigation-bar__center">
+					    Search Customer
+					  </div>
+					
+					  <div class="navigation-bar__right">
+					    <span class="toolbar-button--quiet navigation-bar__line-height" ng-click="screen.createCustomer()">
+					    	<ons-icon icon="ion-person-add"></ons-icon>&nbsp;Add Customer
+					    </span>
+					  </div>
+					</div>
+					
+					<div style="padding: 8px;">
+	  					<input type="search" class="search-input" style="height: 44px;" placeholder="Search" ng-model="searchText">
+	  					<p style="font-style: italic;" ng-show="(customerList | filter:searchText).length == 0">No customer found for {{searchText}}</p>
+  					</div>
+  					
+  				</div>
+  				<div class="content">  					
+  					<ons-scroller>
+						<ons-list width= "100%" style="margin-left:8px; margin-right: 8px;" class="alternate">
+							<ons-list-item modifier="tappable" ng-repeat="customer in customerList | filter:searchText | orderBy: 'name'" ng-click="setCustomer(customer)">
+					   			{{customer.name}}
+					   		</ons-list-item>
+						</ons-list>
+					</ons-scroller>
+  				</div>
+  			</div>
+  		</ons-col>
+  	</ons-row>
+  	
+  	
+  	<!-- customer form -->
+  	<ons-row style="height:100%;" ng-show="screen.shouldShowCustomerForm" ng-controller="CustomerFormController">
+  		<ons-col class="">  
+  		<div class="header-footer-layout" style="left:0px; right: 318px; width: auto;">
+  				<div class="header">
+  				
+  					<div class="navigation-bar">
+					  <div class="navigation-bar__left">
+					    <!-- 
+					    <span class="toolbar-button--quiet navigation-bar__line-height" ng-click="back()">
+					      <i class="ion-ios-arrow-back"
+					        style="font-size:32px; vertical-align:-6px;"></i>
+					    </span>
+					     -->
+					  </div>
+					
+					  <div class="navigation-bar__center">
+					    Add Customer
+					  </div>
+					
+					  <div class="navigation-bar__right">					    
+					  </div>
+					</div>  					
+  				</div>
+  				
+  				<div class="content">	
+  				<form novalidate name="ccform" id="create-customer-form">					
+					<ons-list>
+				      <ons-list-item>
+				        <input type="text" name="name" ng-model="name" placeholder="Name" class="text-input text-input--transparent" style="margin-top:8px; width: 100%;" required="required">
+				        <!-- 
+				        <div ng-show="form.$submitted || form.name.$touched" class="error">
+							<span ng-show="form.name.$error.required">Name is required</span>
+						</div>
+						 -->
+				      </ons-list-item>
+				
+				      <ons-list-item>
+				        <input type="email" name="email" ng-model="email" placeholder="Email Address" class="text-input text-input--transparent" style="margin-top:8px; width: 100%;">
+				        <!-- 
+				        <div ng-show="form.$submitted || form.email.$touched" class="error">
+							<span ng-show="form.email.$error.email">Please enter a valid e-mail address.</span>
+						</div>
+						 -->
+				      </ons-list-item>
+				      
+				      <ons-list-item>
+				        <input type="tel" name="phone" ng-model="phone" placeholder="Phone" class="text-input text-input--transparent" style="margin-top:8px; width: 100%;">
+				      </ons-list-item>
+				
+					  <!-- 
+				      <ons-list-item>
+				        <ons-row>
+				          <ons-col width="90px">
+				            <span style="color: #666">Gender</span></ons-col>
+				          <ons-col>
+				
+				            <div style="float: right; padding-right: 16px;">
+				              <label class="radio-button">
+				                <input type="radio" name="level" checked value="male" ng-model="gender">
+				                <div class="radio-button__checkmark"></div>
+				                Male
+				              </label>
+				
+				              <label class="radio-button">
+				                <input type="radio" name="level" value="female" ng-model="ng-model="gender"">
+				                <div class="radio-button__checkmark"></div>
+				                Female
+				              </label>
+				            </div>
+				
+				          </ons-col>
+				        </ons-row>
+				      </ons-list-item>
+				       -->
+				
+					  <!-- 
+				      <ons-list-item>
+				        <span style="color: #666">Mail Magazine</span>
+				        <ons-switch modifier="list-item" checked></ons-switch>
+				      </ons-list-item>
+				
+				      <ons-list-item>
+				        <span style="color: #666">Offline</span>
+				        <ons-switch modifier="list-item"></ons-switch>
+				      </ons-list-item>
+				       -->
+				       
+				    </ons-list>				
+				
+				    				    
+				    <div style="margin:20px auto 8px; text-align: center; width:500px;">
+	  				<ons-row class="action-button">
+				    	<ons-col>
+				    		<ons-button class="button--large button--outline" ng-click="back()">Cancel</ons-button>
+				    	</ons-col>	
+				    	<ons-col>
+				    		&nbsp;
+				    	</ons-col>
+				    	<ons-col>
+				    		<ons-button class="button--large" ng-disabled="!ccform.$valid" ng-click="save()">Save</ons-button>
+				    	</ons-col>	    	      	
+				    </ons-row>
+				    </div>
+				    
+				</form>	
+  				</div>
+  				
+  			</div>			
+  		</ons-col>  		
+  	</ons-row>
+  	  	
+  	<!-- customer details -->
+  	<ons-row style="height:100%;" ng-show="screen.shouldShowCustomerDetails" ng-controller="CustomerDetailsController">
+  		<ons-col class="">  
+  		<div class="header-footer-layout" style="left:0px; right: 318px; width: auto;">
+  				<div class="header">
+  				
+  					<div class="navigation-bar">
+					  <div class="navigation-bar__left">
+					  	<!-- 
+					    <span class="toolbar-button--quiet navigation-bar__line-height" ng-click="screen.reset()">
+					      <i class="ion-ios-arrow-back"
+					        style="font-size:32px; vertical-align:-6px;"></i>
+					    </span>
+					     -->					    
+					  </div>
+					
+					  <div class="navigation-bar__center">
+					    Customer Details
+					  </div>
+					
+					  <div class="navigation-bar__right">
+					    <span class="toolbar-button--quiet navigation-bar__line-height" ng-click="">
+					    	<ons-icon icon="ion-edit"></ons-icon>&nbsp;Edit
+					    </span>
+					  </div>
+					</div>  					
+  				</div>
+  				<div class="content"> 				
+  					
+					<ons-list width= "100%" style="margin-left:8px; margin-right: 8px;">
+						<ons-list-item>
+				   			{{screen.customer.name}}
+				   		</ons-list-item>
+					</ons-list>
+  				</div>
+  			</div>			
+  		</ons-col> 		
+  	</ons-row>
+  	
+  	<!-- order actions -->
+  	<ons-row style="height:100%;" ng-show="screen.shouldShowOrderActions">
+  		<ons-col>  			
+  		</ons-col>  		
+  	</ons-row>
+  	
+  </ons-col>
+  
+  <ons-col width="317px">  	
+  	<div class="header-footer-layout" style="width:317px;">
+  		<div class="header customer-container blue" style="height:43px;">  		
+  			<span ng-show="!screen.customer" ng-click="screen.searchCustomer()" class="customer-details">
+	   				<ons-icon icon="ion-person"></ons-icon>&nbsp;Select Customer
+   			</span>
+   			<span ng-show="screen.customer" class="customer-details">
+   				<span ng-click="screen.viewCustomer()">{{screen.customer.name}}</span>
+   				&nbsp;<ons-icon icon="ion-close" ng-click="screen.customer=null; screen.reset();"></ons-icon>
+   			</span>	  		
+  		</div>
+  		
+  		<div class="content cart-container" scroll-glue>
+  			<div ng-show="(cart.lines.size() != 0)">
+  			<ons-list width= "100%" class="alternate large">	
+		   		<ons-list-item ng-repeat="line in cart.getLines()" ng-click="viewLine(line.index)" modifier="tappable" ng-class="isLineSelected(line.index)">
+		   			<ons-row>
+		   				<ons-col>
+		   					{{line.qty}}x {{line.product.name}}
+		   				</ons-col>
+		   				<ons-col width="70px" class="right">
+		   					{{line.lineAmt | number : 2 }}
+		   				</ons-col>
+		   				<ons-col width="28px" class="right">
+		   					<button class="button button--quiet">
+								<ons-icon icon="ion-trash-a" size="28px" fixed-width="false" ng-click="removeLine(line.index)">
+							</button>
+		   				</ons-col>
+		   			</ons-row>
+		   			<ons-row ng-repeat="modifier in line.getModifiers()" class="modifiers">
+		   				<ons-col>
+		   					&nbsp;&nbsp;{{modifier.product.name}}
+		   				</ons-col>
+		   				<ons-col width="70px" class="right">
+		   					{{modifier.lineAmt | number : 2 }}
+		   				</ons-col>
+		   				<ons-col width="28px" class="right">
+		   				<!-- 
+		   					<button class="button button--quiet">
+								<ons-icon icon="ion-trash-a" size="28px" fixed-width="false" ng-click="removeLine(line.index)">
+							</button>
+						 -->
+		   				</ons-col>
+		   			</ons-row>
+		   			
+		   			<ons-row class="modifiers" ng-show="line.discountPercentage > 0">
+		   				<ons-col>
+		   					Discount({{line.discountPercentage}}%). Saved {{line.discountAmt | currency : "$" : 2 }}
+		   				</ons-col>
+		   			</ons-row>
+		   			
+		   		</ons-list-item>
+		   	</ons-list>	
+		   	</div>
+  		</div>
+  		
+  		<div class="footer">
+  			<ons-list width="100%" ng-show="screen.lastSale != null">
+  				<ons-list-item>
+  					<ons-row style="font-size: 17px;">
+		   				<ons-col>
+		   					Last Sale
+		   				</ons-col>
+		   				<ons-col class="right">
+		   					{{screen.lastSale.amount | currency : "$" : 2 }}
+		   				</ons-col>
+		   			</ons-row>
+		   			
+		   			<ons-row style="font-size: 30px;">
+		   				<ons-col>
+		   					<span style="font-size: 17px;">Change</span>
+		   				</ons-col>
+		   				<ons-col class="right">
+		   					{{screen.lastSale.change | currency : "$" : 2}}
+		   				</ons-col>
+		   			</ons-row>
+		   		</ons-list-item>
+  			</ons-list>
+  			
+	  		<ons-list width= "100%" ng-show="screen.lastSale == null">
+		   		<ons-list-item>
+		   			<ons-row style="font-size: 12px;line-height: 24px;">
+		   				<ons-col>
+		   					Sub Total
+		   				</ons-col>
+		   				<ons-col class="right">
+		   					{{cart.subtotal | number : 2 }}
+		   				</ons-col>
+		   			</ons-row>
+		   			
+		   			<ons-row style="font-size: 12px;line-height: 24px;">
+		   				<ons-col>
+		   					Tax Total
+		   				</ons-col>
+		   				<ons-col class="right">
+		   					{{cart.taxtotal | number : 2 }}
+		   				</ons-col>
+		   			</ons-row>
+		   			
+		   			<ons-row style="font-size: 30px;">
+		   				<ons-col>
+		   					Total <span style="font-size: 17px;">(x{{cart.qtytotal}})</span>
+		   				</ons-col>
+		   				<ons-col class="right">
+		   					{{cart.grandtotal | currency : "$" : 2 }}
+		   				</ons-col>
+		   			</ons-row>
+		   		</ons-list-item>
+		   </ons-list>
+		   
+			<ons-row class="action-button">
+				 
+				<ons-col  width="70px">
+					<button class="button button--large orange" ng-disabled="(!(cart.lines.size() > 0 && screen.shouldShowProductSelector))" ng-click="fastCheckout()">
+						Fast
+					</button>
+				</ons-col>
+				<ons-col>
+					<button class="button button--large green" ng-disabled="(!(cart.lines.size() > 0 && screen.shouldShowProductSelector))" ng-click="showCheckoutDialog()">Checkout</button>
+				</ons-col>
+			</ons-row>		   
+  		</div>
+  	</div>
+ 
+</ons-row>
+
+</ons-page> 

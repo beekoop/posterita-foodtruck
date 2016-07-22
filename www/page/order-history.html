@@ -1,0 +1,169 @@
+<ons-page ng-controller="OrderHistoryController"> 
+<ons-toolbar fixed-style>
+<div class="left">
+	<ons-toolbar-button onclick="menu.setMainPage('page/order-screen.html', {closeMenu: true})">
+	<ons-icon icon="ion-ios-arrow-back"></ons-icon>Back
+	</ons-toolbar-button>
+</div>
+<div class="center">Orders ({{orders.length}})</div>
+
+<div style="width:317px;height:44px;position:absolute;right:0px;text-align: center;line-height: 44px;" class="right">
+	<ons-row width="100%">		
+		<ons-col>
+			<strong>{{ current_order == null ? '' : ('#' + current_order.documentno) }}</strong>
+		</ons-col>
+	</ons-row>
+</div>
+</ons-toolbar>
+
+<ons-row style="height:100%;">
+	<ons-col class="relative">
+		<div class="header-footer-layout">
+			<div class="header">			
+				<ons-list>
+					<ons-list-item class="header">
+						<ons-row>
+							<ons-col>
+								Time
+							</ons-col>
+							<ons-col>
+								Status
+							</ons-col>
+							<ons-col>
+								Total
+							</ons-col>
+							<ons-col>
+								Payment
+							</ons-col>
+						</ons-row>		
+					</ons-list-item>
+			
+			</div>
+			<div class="content">
+				<ons-scroller>
+				<ons-list class="alternate" style="border-top:none;">					
+					<ons-list-item ng-click="viewOrder(order)" modifier="tappable" ng-repeat="order in orders | orderBy: '-dateordered' track by order.uuid " ng-class="isSelected(order)">
+						<ons-row>
+							<ons-col>
+								<!-- 
+								{{order.dateordered | date : 'h:mm:ss a'}} 
+								 -->
+								<time title="{{ order.dateordered | amDateFormat: 'dddd, MMMM Do YYYY, h:mm a' }}">{{ order.dateordered | amCalendar }}</time>
+								<div>{{order.note}}</div>
+							</ons-col>
+							<ons-col>
+								<span ng-if="order.status == 'VO'">VOIDED</span>
+							</ons-col>
+							<ons-col>
+								{{ ( order.grandtotal - order.cayan_discountamt ) | currency : "$" : 2}}
+							</ons-col>
+							<ons-col>
+								{{order.paymenttype}}
+							</ons-col>
+						</ons-row>		
+					</ons-list-item>
+				</ons-list>
+				</ons-scroller>
+			</div>
+		</div>		
+	</ons-col>
+	
+	<ons-col class="border-left relative" width="317px">
+		<div class="header-footer-layout">
+			<div class="header customer-container" style="height:45px;">   			
+   			<span ng-show="current_order.customer_name" class="customer-details">
+   				{{current_order.customer_name}}
+   			</span>	  		
+  		</div>
+  		
+  		<div class="content cart-container">
+  			<div ng-show="(current_order.lines.length != 0)">
+  			<ons-list width= "100%" class="alternate">	
+		   		<ons-list-item ng-repeat="line in current_order.lines">
+		   			<ons-row>
+		   				<ons-col>
+		   					{{line.qtyentered}} x {{line.name}}
+		   				</ons-col>
+		   				<ons-col width="70px" class="right">
+		   					{{line.lineamt | number : 2 }}
+		   				</ons-col>
+		   			</ons-row>
+		   			<ons-row ng-repeat="modifier in line.modifiers" class="modifiers">
+		   				<ons-col>
+		   					&nbsp;&nbsp;{{modifier.name}}
+		   				</ons-col>
+		   				<ons-col width="70px" class="right">
+		   					{{modifier.lineamt | number : 2 }}
+		   				</ons-col>
+		   			</ons-row>
+		   		</ons-list-item>
+		   	</ons-list>	
+		   	</div>
+  		</div>
+  		
+  		<div class="footer">
+	  		<ons-list width= "100%">
+		   		<ons-list-item>
+		   			<ons-row style="font-size: 12px;line-height: 24px;">
+		   				<ons-col>
+		   					Sub Total
+		   				</ons-col>
+		   				<ons-col class="right">
+		   					{{current_order.subtotal | number : 2 }}
+		   				</ons-col>
+		   			</ons-row>
+		   			
+		   			<ons-row style="font-size: 12px;line-height: 24px;">
+		   				<ons-col>
+		   					Tax Total
+		   				</ons-col>
+		   				<ons-col class="right">
+		   					{{current_order.taxtotal | number : 2 }}
+		   				</ons-col>
+		   			</ons-row>
+		   			
+		   			<ons-row style="font-size: 12px;line-height: 24px;" ng-show="( ( current_order.discountamt + current_order.cayan_discountamt ) > 0 )">
+		   				<ons-col>
+		   					Discount
+		   				</ons-col>
+		   				<ons-col class="right">
+		   					{{ ( current_order.discountamt + current_order.cayan_discountamt ) | number : 2 }}
+		   				</ons-col>
+		   			</ons-row>
+		   			
+		   			<ons-row style="font-size: 30px;">
+		   				<ons-col>
+		   					Total <span style="font-size: 17px;">(x{{current_order.qtytotal}})</span>
+		   				</ons-col>
+		   				<ons-col class="right">
+		   					{{ ( current_order.grandtotal - current_order.cayan_discountamt ) | currency : "$" : 2 }}
+		   				</ons-col>
+		   			</ons-row>
+		   		</ons-list-item>
+		   </ons-list>
+		   
+			<ons-row class="action-button">
+				<!-- 
+				<ons-col  width="70px">
+					<button class="button button--large">
+						<ons-icon icon="ion-android-more-vertical">
+					</button>
+				</ons-col>
+				-->
+				<ons-col>
+					<button class="button button--large" ng-disabled="(current_order == null || current_order.status == 'VO')" ng-click="refundOrderConfirmation( current_order )">Refund</button>					
+				</ons-col>				
+				<ons-col>
+					<button class="button button--large" ng-disabled="(current_order == null || current_order.status == 'VO')" ng-click="voidOrderConfirmation( current_order )">Void</button>
+				</ons-col>
+				<ons-col>
+					<button class="button button--large" ng-disabled="(current_order == null || current_order.status == 'VO')" ng-click="reprintOrder( current_order )">Reprint</button>
+				</ons-col>
+			</ons-row>		   
+  		</div>
+		</div>
+	</ons-col>
+	
+</ons-row>
+
+</ons-page> 

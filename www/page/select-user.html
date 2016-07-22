@@ -1,0 +1,34 @@
+<!-- select user page  -->
+<ons-page ng-controller="UserController"> 
+
+<ons-toolbar fixed-style>
+  <div class="left"><ons-toolbar-button ng-click="changeTerminal()">Change Terminal</ons-toolbar-button></div>
+  <div class="center">
+  {{truck.name}}, {{terminal.name}}
+  </div>
+  <div class="right"><ons-toolbar-button onclick="closeApp()">Close</ons-toolbar-button></div>
+</ons-toolbar>
+
+<form novalidate="novalidate" autocomplete="off" name="form" class="form-default">
+
+	<div class="input-group">
+		<label>Select a User</label>
+		<select ng-model="user_id" id="user_id" class="select-large">
+			<option ng-repeat="user in userList" value="{{user.user_id}}">
+				{{user.username}}
+			</option>
+		</select>
+	</div>
+	
+	<div class="input-group">
+		<label>Enter PIN</label>
+		<input type="password" class="text-input-large" placeholder="PIN" value="" name="pin" ng-model="pin" required="required" id="pin">
+	</div>
+	
+	<div class="input-group">
+		<ons-button modifier="large" ng-disabled="!form.$valid" ng-click="logIn()">Log In</ons-button>
+	</div>
+	
+</form>
+
+</ons-page> 

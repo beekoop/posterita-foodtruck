@@ -1,0 +1,27 @@
+<!-- sync page  -->
+
+<ons-page ng-controller="SyncController"> 
+
+<ons-toolbar fixed-style>
+
+  <div class="left">
+	  
+  </div>
+  
+  <div class="center">Synchronizing your posterita account</div>
+  
+  <div class="right">
+  	<ons-toolbar-button onclick="closeApp()">
+  		Cancel
+  	</ons-toolbar-button>
+  </div>
+  
+</ons-toolbar>
+
+<div style="margin: 20% auto; text-align: center;">
+<ons-icon icon="ion-loop" spin="true" style="font-size:32px;"></ons-icon>
+<br><br>
+{{status}}
+</div>
+
+</ons-page> 

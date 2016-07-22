@@ -1,0 +1,46 @@
+  <ons-popover animation="fade" direction="down" var="order-screen-popover"><!-- add 'cancelable' attribute if you want to hide on blur -->
+	<ons-list class="large"> 
+	
+		<ons-list-header ng-show="(cart.qtytotal != 0)">Cart Operations</ons-list-header>
+		       	
+		<ons-list-item modifier="tappable" ng-show="(cart.qtytotal != 0)" ng-click="more_popover.hide(); showAddNoteDialog(false);">
+			<!--  
+			<ons-icon icon="ion-android-create" style="font-size: 32px; width: 1em; opacity: 0.8"></ons-icon>
+			-->
+			Add Note
+		</ons-list-item>
+		<ons-list-item modifier="tappable" ng-show="(cart.qtytotal != 0)" ng-click="more_popover.hide(); showAddNoteDialog(true);">
+			<!--
+			<ons-icon icon="ion-android-hand" style="font-size: 32px; width: 1em; opacity: 0.8"></ons-icon>
+			-->
+			Hold Order
+		</ons-list-item>
+		
+		
+		<ons-list-header>Orders</ons-list-header>
+		<ons-list-item modifier="tappable" ng-click="menu.setMainPage('page/hold-orders.html', {closeMenu: true});">
+			<!--
+			<ons-icon icon="ion-android-time" style="font-size: 32px; width: 1em; opacity: 0.8"></ons-icon>
+			-->
+			Hold Orders
+		</ons-list-item>
+		
+		<ons-list-item modifier="tappable" ng-click="menu.setMainPage('page/today-orders.html', {closeMenu: true});">
+			<!--
+			<ons-icon icon="ion-android-time" style="font-size: 32px; width: 1em; opacity: 0.8"></ons-icon>
+			-->
+			Today Orders
+		</ons-list-item>
+		
+		<!-- 
+		<ons-list-item modifier="tappable" ng-click="popover.hide();">
+			Close Hold Orders
+		</ons-list-item>
+		 -->
+	  
+	  	<ons-list-item style="text-align:right;">
+			<ons-button ng-click="cancelMore();">Cancel</ons-button>
+		</ons-list-item>
+	</ons-list>
+	
+  </ons-popover>

@@ -1,0 +1,79 @@
+<ons-page ng-controller="TillController">
+	<ons-toolbar fixed-style>
+		<div class="right">
+			<ons-toolbar-button onclick="logout()">
+			Logout
+			</ons-toolbar-button>
+		</div>
+		<div class="center">Open Till</div>
+	</ons-toolbar>
+
+	<form novalidate="novalidate" autocomplete="off" name="form" class="form-default" style="margin-top: 8px;">
+		<div class="input-group">
+			<label>Please fill in the fields below to open your POS.</label>
+		</div>
+		
+		<div class="input-group">
+			<label>Enter your starting amount *</label>
+			<input type="number" step="any" ng-model="amount" name="amount" required tabindex="1" autofocus>
+		</div>
+		
+		<div class="input-group">
+			<label>Choose your shift *</label>
+			<select ng-init="shift='wholeday'" name="shift" ng-model="shift" tabindex="2">
+				<option value="wholeday">Whole Day</option>
+				<option value="breakfast">Breakfast</option>
+				<option value="lunch">Lunch</option>
+				<option value="dinner">Dinner</option>
+				<option value="latenight">Late Night</option>
+			</select>
+		</div>
+		
+		<div class="input-group">
+			<label>Is this a special event?</label>
+			<ons-switch modifier="tappable" ng-model="isSpecialEvent" name="isSpecialEvent" tabindex="3"></ons-switch>
+		</div>
+		
+		<div class="input-group" ng-show="isSpecialEvent">
+			<label>Enter a name for the event</label>
+			<input type="text" step="any" ng-model="eventName" name="eventName">
+		</div>
+		
+		<div class="input-group">
+			<label>Enter your location</label>
+			<input type="text" step="any" ng-model="location" id="location" name="location" required tabindex="4">
+		</div>
+		
+		<div class="input-group">
+			<label>Choose the weather condition</label>
+			<select name="weather" ng-model="weather" tabindex="5">
+				<option value="">None</option>
+				<option value="sunny">Sunny</option>
+				<option value="cloudy">Cloudy</option>
+				<option value="rainy">Rainy</option>
+				<option value="snowy">Snowy</option>
+			</select>
+		</div>
+		
+		<div class="input-group">
+			<label>Enter the temperature</label>
+			<select name="temperature" ng-model="temperature" tabindex="6">
+				<option value="">None</option>
+				<option value="freezing">Freezing (-0F)</option>
+				<option value="cold">Cold (0-55F)</option>
+				<option value="warm">Warm (55-70F)</option>
+				<option value="hot">Hot (70-90f)</option>
+				<option value="extremelyhot">Extremely Hot (90+F)</option>
+			</select>
+		</div>
+		
+		<div class="input-group">
+			<label>Let your customers know you have arrived</label>
+			<textarea rows="2" placeholder="Compose message..." ng-model="message" name="message" tabindex="7"></textarea>
+		</div>
+		
+		<div class="input-group">
+			<ons-button  modifier="large" ng-click="openTill(amount)" ng-disabled="!form.$valid" tabindex="8">Open</ons-button>
+		</div>
+	</form>
+</ons-page> 
